@@ -1,3 +1,4 @@
+import { DbGetSelectedUsersResponse } from '../services/http/users/interfaces/outputs/dbGetSelectedUser';
 import { GithubGetUserResponse } from '../services/http/users/interfaces/outputs/githubGetUser';
 import { GithubSearchUsersResponse } from '../services/http/users/interfaces/outputs/githubSearchUsers';
 export const formatedGithubUser = ( {userDataResponse}:{userDataResponse : GithubGetUserResponse} ) =>{
@@ -28,6 +29,23 @@ export const formatedGithubUsersList = ( {usersListDataResponse}:{usersListDataR
             id: user.id || '',
             username: user.login || '',
             githubLink: user.html_url || ''
+        }))
+    
+        return formatedItems
+    }else{
+        return []
+    }
+}
+
+export const formatedDbSelectedUsersList = ( {dbUsersListDataResponse}:{dbUsersListDataResponse : DbGetSelectedUsersResponse} ) =>{
+    const {data} = dbUsersListDataResponse
+
+    if(data.length > 0){
+        const formatedItems = data.map((user) => ({
+            avatar: user.user_avatar || 'https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/fb3ef66312333.5691dd2253378.jpg',
+            Id: user.user_id || '',
+            username: user.user_name || '',
+            githubLink: user.user_github_link || ''
         }))
     
         return formatedItems

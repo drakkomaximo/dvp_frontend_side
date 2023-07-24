@@ -1,9 +1,11 @@
 import * as z from "zod";
 
+
 export const DatumSchema = z.object({
-    "id": z.number(),
-    "account_id": z.number(),
-    "github_user_name": z.string(),
+    "user_name": z.string(),
+    "user_id": z.number(),
+    "user_avatar": z.string(),
+    "user_github_link": z.string(),
 });
 export type Datum = z.infer<typeof DatumSchema>;
 
