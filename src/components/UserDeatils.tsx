@@ -12,6 +12,7 @@ export const UserDeatils: FC<UserDetailsProps> = ({
   location,
   publicRepos,
   username,
+  githubLink,
 }) => {
   return (
     <div className="px-16">
@@ -50,10 +51,10 @@ export const UserDeatils: FC<UserDetailsProps> = ({
             </div>{" "}
           </div>{" "}
           <div className="space-x-8 flex justify-between mt-32 md:mt-0 md:justify-center">
-            <button className="text-white py-2 px-4 uppercase rounded bg-blue-400 hover:bg-blue-500 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5">
+            <a href={githubLink} target="_blank" className="cursor-pointer text-white p-4 uppercase rounded bg-blue-400 hover:bg-blue-500 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5">
               <FontAwesomeIcon icon={faGithub} className="mr-2" />
               Github
-            </button>{" "}
+            </a>{" "}
             <button className="text-white py-2 px-4 uppercase rounded bg-gray-700 hover:bg-gray-800 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5">
               <FontAwesomeIcon icon={faAdd} className="mr-2" />
               Add user

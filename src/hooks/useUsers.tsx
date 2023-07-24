@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { REACT_QUERY_KEYS, formatedGithubUser } from "../utils";
+import { REACT_QUERY_KEYS, formatedGithubUser, formatedGithubUsersList } from "../utils";
 import {
   getUserByNameApi,
   searchUsersByNameApi,
@@ -14,6 +14,7 @@ export const useUsers = ({ username }: { username: string }) => {
       refetchOnWindowFocus: false,
       retry: 2,
       enabled: false,
+      select: (data) => formatedGithubUsersList({ usersListDataResponse: data }),
       /* onSuccess: () => {
         notification({
           text: "",

@@ -16,7 +16,7 @@ export const UsersList: FC<UsersListProps> = ({ items, isFetching }) => {
       {isFetching ? (
         <div>...Loading</div>
       ) : (
-        (items || []).map((user, index) => (
+        items.map((user, index) => (
           <UserCard
             key={index}
             user={user}

@@ -1,28 +1,35 @@
 import { ChangeEvent } from "react";
-import { ItemType } from "../services/http/users/interfaces/outputs/githubSearchUsers";
+
+export interface FormatedUsers {
+    avatar: string;
+    id: string | number;
+    username: string;
+    githubLink: string;
+}
 
 export interface UsersListProps {
-    items? : ItemType[],
+    items : FormatedUsers[],
     isFetching: boolean
 }
 
 export interface UserCardPros {
-    user : ItemType
+    user : FormatedUsers
     selectedUsers: string[];
     onChange: ({ userName }: { userName: string }) => void;
 }
 
 export interface UserDetailsProps {
     avatar: string;
-    description: string | null;
-    blog: string | null;
+    description: string;
+    blog: string;
     followers: number;
     followings: number;
-    id: number | null;
-    location: string | null;
-    username: string | null;
+    id: string | number;
+    location: string;
+    username: string;
     publicRepos: number;
-    type: string | null;
+    type: string;
+    githubLink: string;
 }
 
 export interface SearchBarProps{

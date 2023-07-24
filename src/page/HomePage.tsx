@@ -26,10 +26,8 @@ export const HomePage = () => {
     activeSearch();
   }, [activeSearch]);
 
-  /* if(!githubUsersListQuery.data) return <div>...Error</div> */
-
   return (
-    <section className="flex flex-col justify-center items-center bg-gray-800">
+    <section className="flex flex-col items-center bg-gray-800 overflow-x-hidden pb-40">
       <header className="text-center py-8">
         <h1 className="text-white text-6xl">Github finder app</h1>
         <h2 className="text-white text-3xl py-4">
@@ -38,7 +36,7 @@ export const HomePage = () => {
       </header>
       <SearchBar onChange={findUsersByName} value={searchValue} />
       <UsersList
-        items={githubUsersListQuery?.data?.data?.items}
+        items={githubUsersListQuery?.data || []}
         isFetching={githubUsersListQuery.isFetching}
       />
     </section>
