@@ -1,6 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
-import { REACT_QUERY_KEYS, notification } from "../utils";
-import { searchUsersByNameApi } from "../services/http/users/queries";
+import { REACT_QUERY_KEYS, formatedGithubUser } from "../utils";
+import {
+  getUserByNameApi,
+  searchUsersByNameApi,
+} from "../services/http/users/queries";
 
 export const useUsers = ({ username }: { username: string }) => {
   const githubUsersListQuery = useQuery(
@@ -11,30 +14,35 @@ export const useUsers = ({ username }: { username: string }) => {
       refetchOnWindowFocus: false,
       retry: 2,
       enabled: false,
-      onSuccess: () => {
+      /* onSuccess: () => {
+        notification({
+          text: "",
+          type: "success",
+        });
+      }, */
+    }
+  );
+
+  const githubUserQuery = useQuery(
+    [REACT_QUERY_KEYS.GET_USER_BY_NAME_KEY],
+    () => getUserByNameApi({ username }),
+    {
+      staleTime: 1000 * 60 * 60,
+      refetchOnWindowFocus: false,
+      retry: 2,
+      enabled: false,
+      select: (data) => formatedGithubUser({ userDataResponse: data }),
+      /* onSuccess: () => {
         notification({
           text: "hola mundo",
           type: "success",
         });
-      },
-      /* onError: async error => {
-      await sendError({
-        error,
-        user,
-        module: 'focus_admin',
-        payload: {
-          queryKey: getShipmentNotes,
-          metadata: {
-            functionName: 'getShipAddressApi',
-            queryType: 'query',
-          },
-        },
-      });
-    }, */
+      }, */
     }
   );
 
   return {
     githubUsersListQuery,
+    githubUserQuery,
   };
 };

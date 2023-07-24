@@ -1,4 +1,5 @@
 export * from './contants'
+export * from './formatedData'
 export * from './notification'
 export * from './interfaces'
 export * from './reactQueryKeys'

@@ -6,11 +6,11 @@ import { Navbar } from "../components";
 export const MainRoute = () => {
   return (
     <BrowserRouter>
-      <main className="flex flex-col justify-start w-screen h-full bg-gray-800">
+      <main className="flex flex-col justify-start w-screen h-screen bg-gray-800">
         <Navbar />
         <Routes>
           <Route path={ROUTES.HOME} element={<HomePage />} />
-          <Route path={ROUTES.USER} element={<UserPage />} />
+          <Route path={`${ROUTES.USER}/:userName`} element={<UserPage />} />
           <Route path={ROUTES.USERSLIST} element={<SelectedUsersPage />} />
         </Routes>
       </main>
