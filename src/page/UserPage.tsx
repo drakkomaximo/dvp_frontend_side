@@ -6,7 +6,7 @@ import { FullScreenLoader, UserDeatils } from "../components";
 export const UserPage = () => {
   const { userName } = useParams();
 
-  const { githubUserQuery } = useUsers({ username: userName || "hola" });
+  const { githubUserQuery } = useUsers({ username: userName || "" });
 
   const activeSearch = useCallback(
     () => {
@@ -20,12 +20,12 @@ export const UserPage = () => {
     activeSearch();
   }, [activeSearch]);
 
-  if (!githubUserQuery.data) return null;
+  if (!githubUserQuery.data) return <FullScreenLoader title={'Server error...'}  />;
 
   const { data } = githubUserQuery;
 
-  return githubUserQuery.isFetching ? (
-    <FullScreenLoader />
+  return githubUserQuery.isFetching || githubUserQuery.isError ? (
+    <FullScreenLoader title={'Loading Users...'}  />
   ) : (
     <UserDeatils {...data} />
   );

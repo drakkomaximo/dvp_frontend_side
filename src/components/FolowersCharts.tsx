@@ -15,6 +15,7 @@ import {
   Filler,
   ChartOptions,
 } from "chart.js";
+import { FullScreenLoader } from ".";
 
 ChartJS.register(
   CategoryScale,
@@ -42,7 +43,7 @@ export const FolowersCharts: FC<CustomChartProps> = ({
   isFetching,
 }) => {
   return isFetching ? (
-    <div>Hola mundo</div>
+    <FullScreenLoader title={'Loading Graphs...'} />
   ) : (
     <Bar data={formattedFollowersChart({ followers })} options={options}>
       CustomChart

@@ -6,8 +6,7 @@ export const SearchBar: FC<SearchBarProps> = ({onChange, value}) => {
     <form>
       <div className="relative text-gray-600 focus-within:text-gray-400">
         <span className="absolute inset-y-0 left-0 flex items-center pl-2">
-          <button
-            type="submit"
+          <div
             className="p-1 focus:outline-none focus:shadow-outline"
           >
             <svg
@@ -21,7 +20,7 @@ export const SearchBar: FC<SearchBarProps> = ({onChange, value}) => {
             >
               <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
             </svg>
-          </button>
+          </div>
         </span>
         <input
           type="search"

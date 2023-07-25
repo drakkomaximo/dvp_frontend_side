@@ -106,6 +106,7 @@ export const formattedFollowersChart = ({
         label: "Users Followers",
         data: followers.map((user) => user.followers),
         backgroundColor: "rgb(255,255,255)",
+        borderColor: "rgb(45,255,90)"
       },
     ],
   };

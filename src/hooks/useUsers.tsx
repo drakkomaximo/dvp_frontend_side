@@ -31,8 +31,14 @@ export const useUsers = ({
     {
       staleTime: 1000 * 60 * 60,
       refetchOnWindowFocus: false,
-      retry: 2,
+      retry: 0,
       enabled: false,
+      onError: () =>{
+        notification({
+          text: 'Server Error',
+          type: "error",
+        });
+      },
       select: (data) =>
         formattedGithubUsersList({ usersListDataResponse: data }),
     }
@@ -44,8 +50,14 @@ export const useUsers = ({
     {
       staleTime: 1000 * 60 * 60,
       refetchOnWindowFocus: false,
-      retry: 2,
+      retry: 0,
       enabled: false,
+      onError: () =>{
+        notification({
+          text: 'Server Error',
+          type: "error",
+        });
+      },
       select: (data) => formattedGithubUser({ userDataResponse: data }),
     }
   );
@@ -56,8 +68,14 @@ export const useUsers = ({
     {
       staleTime: 1000 * 60 * 60,
       refetchOnWindowFocus: false,
-      retry: 2,
+      retry: 0,
       enabled: false,
+      onError: () =>{
+        notification({
+          text: 'Server Error',
+          type: "error",
+        });
+      },
       select: (data) => formattedGithubNumberOfFollowersList({ numbersOfFollowersResponse: data }),
     }
   );
@@ -68,11 +86,17 @@ export const useUsers = ({
     {
       staleTime: 1000 * 60 * 60,
       refetchOnWindowFocus: false,
-      retry: 2,
+      retry: 0,
       enabled: false,
+      onError: () =>{
+        notification({
+          text: 'Server Error',
+          type: "error",
+        });
+      },
       select: (data) =>
         formattedDbSelectedUsersList({ dbUsersListDataResponse: data }),
-    }
+    },
   );
 
   //mutations
@@ -99,8 +123,14 @@ export const useUsers = ({
         );
       }
       notification({
-        text: "User saved.",
+        text: data.data,
         type: "success",
+      });
+    },
+    onError: () =>{
+      notification({
+        text: 'Server Error',
+        type: "error",
       });
     },
   });
@@ -121,8 +151,14 @@ export const useUsers = ({
         );
       }
       notification({
-        text: "User deleted",
+        text: data.data,
         type: "success",
+      });
+    },
+    onError: () =>{
+      notification({
+        text: 'Server Error',
+        type: "error",
       });
     },
   });

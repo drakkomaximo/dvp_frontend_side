@@ -12,6 +12,10 @@ export interface FormattedUsers {
   githubLink: string;
 }
 
+export interface FullScreenLoaderProps{
+  title: string;
+}
+
 export interface UsersListProps {
   items: FormattedUsers[];
   isFetching: boolean;

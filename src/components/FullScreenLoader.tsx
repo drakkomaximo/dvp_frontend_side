@@ -1,7 +1,10 @@
-export const FullScreenLoader = () => {
+import { FC } from 'react';
+import { FullScreenLoaderProps } from '../utils';
+
+export const FullScreenLoader:FC<FullScreenLoaderProps> = ({title}) => {
   return (
     <div className="w-screen h-screen flex flex-col justify-center items-center">
-      <h1 className="text-white text-5xl mb-4">Loading user...</h1>
+      <h1 className="text-white text-5xl mb-4">{title}</h1>
       <div className="p-4 bg-white border border-primary rounded-md">
         <div className="flex">
           <div className="mr-4 bg-gray-200 border border-gray-200 h-16 w-16 rounded animate-pulse"></div>

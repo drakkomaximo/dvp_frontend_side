@@ -7,19 +7,24 @@ import { useContext } from "react";
 import LocalUserContext from "../context/localUser";
 
 export const Navbar = () => {
-  const { localAccount, userSearchedList, updateUsersSearchedList } = useContext(LocalUserContext);
+  const { localAccount, userSearchedList, updateUsersSearchedList } =
+    useContext(LocalUserContext);
 
   return (
-    <nav className="bg-zinc-700 flex justify-between items-center py-5 px-10">
+    <header className="bg-zinc-700 flex justify-between items-center py-5 px-10">
       <div className="text-white font-bold">
-        <Link onClick={() =>updateUsersSearchedList({users: []})} to={ROUTES.HOME} className="p-2 rounded-sm">
+        <Link
+          onClick={() => updateUsersSearchedList({ users: [] })}
+          to={ROUTES.HOME}
+          className="p-2 rounded-sm"
+        >
           <FontAwesomeIcon icon={faGithub} className="mr-2" />
           Github Finder
         </Link>
       </div>
-      {userSearchedList.length > 0 && (
-        <ul className="flex gap-x-2">
-          <li className="text-white font-bold">
+      <div className="flex gap-3">
+        {userSearchedList.length > 0 && (
+          <div className="text-white font-bold">
             <Link
               to={ROUTES.FOLLOWERSLIST}
               className="bg-amber-800 p-2 rounded-sm"
@@ -27,12 +32,10 @@ export const Navbar = () => {
               <FontAwesomeIcon icon={faList} className="mr-2" />
               Followers List
             </Link>
-          </li>
-        </ul>
-      )}
-      {localAccount.users.length > 0 && (
-        <ul className="flex gap-x-2">
-          <li className="text-white font-bold">
+          </div>
+        )}
+        {localAccount.users.length > 0 && (
+          <div className="text-white font-bold">
             <Link
               to={`${ROUTES.USERSLIST}/${localAccount.id}`}
               className="bg-amber-800 p-2 rounded-sm"
@@ -40,9 +43,9 @@ export const Navbar = () => {
               <FontAwesomeIcon icon={faList} className="mr-2" />
               Users List
             </Link>
-          </li>
-        </ul>
-      )}
-    </nav>
+          </div>
+        )}
+      </div>
+    </header>
   );
 };

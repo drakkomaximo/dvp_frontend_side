@@ -17,7 +17,7 @@ export const UsersList: FC<UsersListProps> = ({ items, isFetching }) => {
   }, [items]);
 
   return (
-    <div className="flex gap-4 flex-wrap w-10/12 mt-8 h-full">
+    <div className="flex gap-4 flex-wrap w-10/12 mt-8">
       {isFetching ? (
         <SimpleLoader />
       ) : items.length === 0 ? (
