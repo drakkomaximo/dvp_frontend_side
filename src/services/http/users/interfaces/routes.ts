@@ -6,6 +6,7 @@ export enum DB_API_QUERY_ROUTES {
   SEARCH_USERS_BY_NAME = "/search",
   GET_USER_BY_NAME = "/user",
   GET_SELECTED_USERS_BY_ID = "/selected-users",
+  GET_NUMBER_OF_FOLLOWERS_BY_USERS_NAME = "/followers/users=",
 }
 
 export enum DB_API_MUTATION_ROUTES {

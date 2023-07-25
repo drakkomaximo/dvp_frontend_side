@@ -1,13 +1,15 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import {
   REACT_QUERY_KEYS,
-  formatedDbSelectedUsersList,
-  formatedGithubUser,
-  formatedGithubUsersList,
+  formattedDbSelectedUsersList,
+  formattedGithubNumberOfFollowersList,
+  formattedGithubUser,
+  formattedGithubUsersList,
   notification,
 } from "../utils";
 import {
-  getSelectedUsersById,
+  getNumberOfFollowersByUsersNameApi,
+  getSelectedUsersByIdApi,
   getUserByNameApi,
   searchUsersByNameApi,
 } from "../services/http/users/queries";
@@ -16,9 +18,11 @@ import { deleteUserByNameApi, selectUserByNameApi } from "../services/http/users
 export const useUsers = ({
   username = "",
   id = 0,
+  users = []
 }: {
   username?: string;
   id?: number | string;
+  users?: string[]
 }) => {
   //queries
   const githubUsersListQuery = useQuery(
@@ -30,7 +34,7 @@ export const useUsers = ({
       retry: 2,
       enabled: false,
       select: (data) =>
-        formatedGithubUsersList({ usersListDataResponse: data }),
+        formattedGithubUsersList({ usersListDataResponse: data }),
     }
   );
 
@@ -42,20 +46,32 @@ export const useUsers = ({
       refetchOnWindowFocus: false,
       retry: 2,
       enabled: false,
-      select: (data) => formatedGithubUser({ userDataResponse: data }),
+      select: (data) => formattedGithubUser({ userDataResponse: data }),
+    }
+  );
+
+  const githubNumberOfFollowersByUsernamesQuery = useQuery(
+    [REACT_QUERY_KEYS.GET_NUMBERS_OF_FOLLOWERS_BY_USERNAMES_KEY],
+    () => getNumberOfFollowersByUsersNameApi({ users }),
+    {
+      staleTime: 1000 * 60 * 60,
+      refetchOnWindowFocus: false,
+      retry: 2,
+      enabled: false,
+      select: (data) => formattedGithubNumberOfFollowersList({ numbersOfFollowersResponse: data }),
     }
   );
 
   const dbSelectUsersQuery = useQuery(
     [REACT_QUERY_KEYS.GET_SELECTED_USERS_BY_ID_KEY],
-    () => getSelectedUsersById({ id: Number(id) }),
+    () => getSelectedUsersByIdApi({ id: Number(id) }),
     {
       staleTime: 1000 * 60 * 60,
       refetchOnWindowFocus: false,
       retry: 2,
       enabled: false,
       select: (data) =>
-        formatedDbSelectedUsersList({ dbUsersListDataResponse: data }),
+        formattedDbSelectedUsersList({ dbUsersListDataResponse: data }),
     }
   );
 
@@ -115,6 +131,7 @@ export const useUsers = ({
     dbSelectUsersQuery,
     githubUsersListQuery,
     githubUserQuery,
+    githubNumberOfFollowersByUsernamesQuery,
     dbSelectUserMutation,
     dbDeleteUserMutation,
   };

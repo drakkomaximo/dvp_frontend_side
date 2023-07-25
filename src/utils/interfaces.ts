@@ -1,6 +1,11 @@
 import { ChangeEvent } from "react";
 
-export interface FormatedUsers {
+export interface Followers{
+  followers: number;
+  username: string;
+}
+
+export interface FormattedUsers {
   avatar: string;
   id: string | number;
   username: string;
@@ -8,12 +13,17 @@ export interface FormatedUsers {
 }
 
 export interface UsersListProps {
-  items: FormatedUsers[];
+  items: FormattedUsers[];
   isFetching: boolean;
 }
 
+export interface CustomChartProps {
+  followers: Followers[];
+  isFetching: boolean
+}
+
 export interface UserCardPros {
-  user: FormatedUsers;
+  user: FormattedUsers;
   localAccount: {
     id: number;
     users: string[];

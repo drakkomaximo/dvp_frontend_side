@@ -1,5 +1,6 @@
 import { AxiosInstance } from "../../../../config";
 import { DbGetSelectedUsersResponseSchema } from "../interfaces/outputs/dbGetSelectedUser";
+import { GithubGetFollowersAmountResponseSchema } from "../interfaces/outputs/githubGetFolloersAmount";
 import { GithubGetUserResponseSchema } from "../interfaces/outputs/githubGetUser";
 import { GithubSearchUsersResponseSchema } from "../interfaces/outputs/githubSearchUsers";
 
@@ -25,10 +26,19 @@ export const getUserByNameApi = async ({ username }: { username: string }) => {
   return GithubGetUserResponseSchema.parse(res.data);
 };
 
-export const getSelectedUsersById = async ({ id }: { id: number }) => {
+export const getSelectedUsersByIdApi = async ({ id }: { id: number }) => {
   const res = await AxiosInstance.get(
     `${DB_API_ROUTES.DB_VERSION}${DB_API_QUERY_ROUTES.GET_SELECTED_USERS_BY_ID}/${id}`
   );
 
   return DbGetSelectedUsersResponseSchema.parse(res.data);
+};
+
+export const getNumberOfFollowersByUsersNameApi = async ({ users }: { users: string[] }) => {
+  const formattedUsers = users.toString();
+  const res = await AxiosInstance.get(
+    `${DB_API_ROUTES.DB_VERSION}${DB_API_QUERY_ROUTES.GET_NUMBER_OF_FOLLOWERS_BY_USERS_NAME}${formattedUsers}`
+  );
+
+  return GithubGetFollowersAmountResponseSchema.parse(res.data);
 };
