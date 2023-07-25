@@ -18,7 +18,7 @@ export const useUsers = ({
   id = 0,
 }: {
   username?: string;
-  id?: number;
+  id?: number | string;
 }) => {
   //queries
   const githubUsersListQuery = useQuery(
@@ -60,7 +60,7 @@ export const useUsers = ({
 
   const dbSelectUsersQuery = useQuery(
     [REACT_QUERY_KEYS.GET_SELECTED_USERS_BY_ID_KEY],
-    () => getSelectedUsersById({ id }),
+    () => getSelectedUsersById({ id: Number(id) }),
     {
       staleTime: 1000 * 60 * 60,
       refetchOnWindowFocus: false,

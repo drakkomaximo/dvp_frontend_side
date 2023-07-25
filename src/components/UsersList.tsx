@@ -1,39 +1,14 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useContext } from "react";
 import { UserCard } from ".";
 import { UsersListProps } from "../utils";
+import LocalUserContext from "../context/localUser";
 
 export const UsersList: FC<UsersListProps> = ({ items, isFetching }) => {
-  const [selectedUsers, setSelectedUsers] = useState<string[]>([]);
-  const [localAccount, setLocalAccount] = useState<{
-    id: number, users: string[]
-  }>({
-    id: 0,
-    users: []
-  })
-
-  const setLocalIdAction = () => {
-    const storedState = localStorage.getItem('db_user')
-
-    if(storedState){
-      setLocalAccount(JSON.parse(storedState))
-    }else{
-      setLocalAccount({
-        id: 0,
-        users: []
-      })
-    }
-  }
-
-  const onUserSelected = ({ userName }: { userName: string }) => {
-    selectedUsers.includes(userName)
-      ? setSelectedUsers(selectedUsers.filter((user) => user !== userName))
-      : setSelectedUsers([...selectedUsers, userName]);
-
-      setLocalIdAction()
-  };
+  const { localAccount, updateLocalUser, onUserSelected, selectedUsers } = useContext(LocalUserContext);
 
   useEffect(() => {
-    setLocalIdAction()
+    updateLocalUser();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedUsers]);
 
   return (

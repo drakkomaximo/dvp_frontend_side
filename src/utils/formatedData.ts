@@ -43,7 +43,7 @@ export const formatedDbSelectedUsersList = ( {dbUsersListDataResponse}:{dbUsersL
     if(data.length > 0){
         const formatedItems = data.map((user) => ({
             avatar: user.user_avatar || 'https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/fb3ef66312333.5691dd2253378.jpg',
-            Id: user.user_id || '',
+            id: user.user_id || '',
             username: user.user_name || '',
             githubLink: user.user_github_link || ''
         }))

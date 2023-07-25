@@ -11,7 +11,7 @@ export const MainRoute = () => {
         <Routes>
           <Route path={ROUTES.HOME} element={<HomePage />} />
           <Route path={`${ROUTES.USER}/:userName`} element={<UserPage />} />
-          <Route path={ROUTES.USERSLIST} element={<SelectedUsersPage />} />
+          <Route path={`${ROUTES.USERSLIST}/:id`} element={<SelectedUsersPage />} />
         </Routes>
       </main>
     </BrowserRouter>
