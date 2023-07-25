@@ -27,7 +27,7 @@ export const HomePage = () => {
   }, [activeSearch]);
 
   return (
-    <section className="flex flex-col items-center bg-gray-800 overflow-x-hidden pb-40">
+    <section className="flex flex-col items-center bg-gray-800 overflow-x-hidden h-full">
       <header className="text-center py-8">
         <h1 className="text-white text-6xl">Github finder app</h1>
         <h2 className="text-white text-3xl py-4">

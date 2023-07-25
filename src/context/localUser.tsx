@@ -1,4 +1,7 @@
 import { createContext, ReactNode, useState, useEffect } from "react";
+import { FormatedUsers } from "../utils";
+import { useUsers } from "../hooks";
+import { User } from "../services/http/users/interfaces/inputs/dbSelectUser";
 
 const LocalUserContext = createContext({} as UserContextType);
 
@@ -16,11 +19,13 @@ type UserContextType = {
   localAccount: LocalUser;
   updateLocalUser: () => void;
   onUserSelected: ({ userName }: { userName: string }) => void;
+  activeSelectUserMutation: ({user, id}:{user: FormatedUsers, id: number}) => void;
 };
 
 export const LocalUserContextProvider = ({
   children,
 }: LocalUserContextProps) => {
+  const { dbSelectUserMutation } = useUsers({});
   const [localAccount, setLocalAccount] = useState<LocalUser>({
     id: 0,
     users: [],
@@ -48,13 +53,23 @@ export const LocalUserContextProvider = ({
     }
   };
 
+  const activeSelectUserMutation = ({user, id}:{user: FormatedUsers, id: number}) =>{
+    const selectedUser: User = {
+      avatar: user.avatar,
+      userId: Number(user.id),
+      username: user.username,
+      githubLink: user.githubLink,
+    };
+    dbSelectUserMutation.mutate({ id, user: selectedUser });
+  }
+
   useEffect(() => {
     updateLocalUser();
   }, []);
 
   return (
     <LocalUserContext.Provider
-      value={{ selectedUsers, localAccount, updateLocalUser, onUserSelected }}
+      value={{ selectedUsers, localAccount, updateLocalUser, onUserSelected, activeSelectUserMutation }}
     >
       {children}
     </LocalUserContext.Provider>

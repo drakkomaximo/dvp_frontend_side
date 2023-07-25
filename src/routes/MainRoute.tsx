@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { HomePage, SelectedUsersPage, UserPage } from "../page";
 import { ROUTES } from "../utils";
 import { Navbar } from "../components";
+import { Footer } from "../components/Footer";
 
 export const MainRoute = () => {
   return (
@@ -13,6 +14,7 @@ export const MainRoute = () => {
           <Route path={`${ROUTES.USER}/:userName`} element={<UserPage />} />
           <Route path={`${ROUTES.USERSLIST}/:id`} element={<SelectedUsersPage />} />
         </Routes>
+        <Footer/>
       </main>
     </BrowserRouter>
   );

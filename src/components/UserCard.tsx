@@ -1,11 +1,10 @@
-import { FC } from "react";
-import { faAdd, faEye, faMinus } from "@fortawesome/free-solid-svg-icons";
+import { FC, useContext, useEffect } from 'react';
+import { faAdd, faMinus, faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { ROUTES, UserCardPros } from "../utils";
+import { ROUTES, UserCardPros, findStringIntoArray } from "../utils";
 import { useNavigate } from "react-router-dom";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
-import { useUsers } from "../hooks";
-import { User } from "../services/http/users/interfaces/inputs/dbSelectUser";
+import LocalUserContext from "../context/localUser";
 
 export const UserCard: FC<UserCardPros> = ({
   user,
@@ -14,22 +13,21 @@ export const UserCard: FC<UserCardPros> = ({
   localAccount
 }) => {
   const navigate = useNavigate();
-  const { dbSelectUserMutation } = useUsers({});
+  const { updateLocalUser, activeSelectUserMutation } = useContext(LocalUserContext)
 
   const goToUserDetails = () => {
     navigate(`${ROUTES.USER}/${user.username}`);
   };
 
   const selectUserAction = () => {
-    const selectedUser: User = {
-      avatar: user.avatar,
-      userId: Number(user.id),
-      username: user.username,
-      githubLink: user.githubLink,
-    };
-    dbSelectUserMutation.mutate({ id: localAccount.id, user: selectedUser });
+    activeSelectUserMutation({id: localAccount.id, user})
     onChange({ userName: user.username })
   };
+
+  useEffect(() => {
+    updateLocalUser();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedUsers]);
 
   return (
     <div className="relative bg-white py-6 px-6 rounded-3xl w-64 my-4 mb-10 shadow-xl">
@@ -38,25 +36,41 @@ export const UserCard: FC<UserCardPros> = ({
       </div>
       <button
         onClick={selectUserAction}
-        className=" text-white flex items-center absolute rounded-full py-4 px-4 shadow-xl bg-pink-500 right-4 -bottom-6"
+        className={`text-white flex items-center absolute rounded-full py-4 px-4 shadow-xl ${
+          findStringIntoArray({
+            compareOne: selectedUsers,
+            compareTwo: user.username,
+          }) || findStringIntoArray({
+            compareOne: localAccount.users,
+            compareTwo: user.username,
+          })
+            ? "bg-red-700 hover:bg-red-800"
+            : "bg-green-700 hover:bg-green-800"
+        } right-4 -bottom-6`}
       >
         <FontAwesomeIcon
-          icon={localAccount.users.includes(user.username) || selectedUsers.includes(user.username) ? faMinus : faAdd}
+          icon={findStringIntoArray({
+            compareOne: selectedUsers,
+            compareTwo: user.username,
+          }) || findStringIntoArray({
+            compareOne: localAccount.users,
+            compareTwo: user.username,
+          }) ? faMinus : faAdd}
           className="h-4 w-4"
         />
       </button>
       <a
         href={user.githubLink}
         target="_blank"
-        className="cursor-pointer text-white flex items-center absolute rounded-full py-4 px-4 shadow-xl bg-pink-500 right-[40%] -bottom-6"
+        className="cursor-pointer text-white flex items-center absolute rounded-full py-4 px-4 shadow-xl bg-zinc-700 right-[40%] -bottom-6"
       >
         <FontAwesomeIcon icon={faGithub} className="h-4 w-4" />
       </a>
       <button
         onClick={goToUserDetails}
-        className=" text-white flex items-center absolute rounded-full py-4 px-4 shadow-xl bg-pink-500 left-4 -bottom-6"
+        className=" text-white flex items-center absolute rounded-full py-4 px-4 shadow-xl bg-zinc-700 left-4 -bottom-6"
       >
-        <FontAwesomeIcon icon={faEye} className="h-4 w-4" />
+        <FontAwesomeIcon icon={faUser} className="h-4 w-4" />
       </button>
       <div className="mt-8">
         <p className="text-xl text-center font-semibold my-2">
