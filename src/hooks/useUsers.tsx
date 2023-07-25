@@ -83,7 +83,7 @@ export const useUsers = ({
         );
       }
       notification({
-        text: "Usuario guardado",
+        text: "User saved.",
         type: "success",
       });
     },
@@ -105,7 +105,7 @@ export const useUsers = ({
         );
       }
       notification({
-        text: "Usuario eliminado",
+        text: "User deleted",
         type: "success",
       });
     },

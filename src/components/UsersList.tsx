@@ -15,7 +15,7 @@ export const UsersList: FC<UsersListProps> = ({ items, isFetching }) => {
       ) : items.length === 0 ? (
         <section className="flex flex-col justify-center items-center w-full">
           <FontAwesomeIcon icon={faPersonCircleXmark} className="h-32 w-32 text-white"/>
-            <p className="text-white text-5xl pb-12">No hay resultados</p>
+            <p className="text-white text-5xl pb-12">There are no results</p>
         </section>
       ) : (
         items.map((user, index) => (

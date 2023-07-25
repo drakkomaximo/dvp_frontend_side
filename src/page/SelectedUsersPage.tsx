@@ -34,8 +34,8 @@ export const SelectedUsersPage = () => {
   return (
     <section className="flex flex-col items-center bg-gray-800 overflow-x-hidden h-full">
       <header className="text-center py-8">
-        <h1 className="text-white text-6xl">Users selected</h1>
-        <h2 className="text-white text-3xl py-4">List of users saved in db</h2>
+        <h1 className="text-white text-6xl">Github Users Chosen</h1>
+        <h2 className="text-white text-3xl py-4">List of users saved in the database</h2>
       </header>
       {/* <SearchBar onChange={findUsersByName} value={searchValue} /> */}
       <UsersList

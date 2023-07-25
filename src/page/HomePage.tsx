@@ -9,13 +9,20 @@ export const HomePage = () => {
 
   const findUsersByName = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
-    setSearchValue(value);
+    if (value === "doublevpartners") {
+      setSearchValue("");
+    } else {
+      setSearchValue(value);
+    }
     setIsActive(true);
   };
 
   const activeSearch = useCallback(
     () => {
-      searchValue.length > 4 && isActive && githubUsersListQuery.refetch();
+      searchValue.length >= 4 &&
+        searchValue !== "doublevpartners" &&
+        isActive &&
+        githubUsersListQuery.refetch();
       setIsActive(false);
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -29,13 +36,14 @@ export const HomePage = () => {
   return (
     <section className="flex flex-col items-center bg-gray-800 overflow-x-hidden h-full">
       <header className="text-center py-8">
-        <h1 className="text-white text-6xl">Github finder app</h1>
+        <h1 className="text-white text-6xl">Github Finder App</h1>
         <h2 className="text-white text-3xl py-4">
-          find diferrents github users profile and you know about their details
+          Find different GitHub users' profiles and get to know about their
+          details.
         </h2>
       </header>
       <SearchBar onChange={findUsersByName} value={searchValue} />
-      {searchValue.length > 4 && (
+      {searchValue.length >= 4 && (
         <UsersList
           items={githubUsersListQuery?.data || []}
           isFetching={githubUsersListQuery.isFetching}
