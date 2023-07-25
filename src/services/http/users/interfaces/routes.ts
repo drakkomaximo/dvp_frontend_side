@@ -10,4 +10,5 @@ export enum DB_API_QUERY_ROUTES {
 
 export enum DB_API_MUTATION_ROUTES {
   SELECT_USER_BY_NAME = "/select",
+  DELETE_USER_BY_NAME = "/delete-user",
 }

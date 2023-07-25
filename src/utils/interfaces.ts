@@ -14,8 +14,6 @@ export interface UsersListProps {
 
 export interface UserCardPros {
   user: FormatedUsers;
-  selectedUsers: string[];
-  onChange: ({ userName }: { userName: string }) => void;
   localAccount: {
     id: number;
     users: string[];

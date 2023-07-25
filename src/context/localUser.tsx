@@ -15,30 +15,20 @@ type LocalUser = {
 };
 
 type UserContextType = {
-  selectedUsers: string[];
   localAccount: LocalUser;
   updateLocalUser: () => void;
-  onUserSelected: ({ userName }: { userName: string }) => void;
   activeSelectUserMutation: ({user, id}:{user: FormatedUsers, id: number}) => void;
+  activeDeleteUserMutation: ({username}:{username: string}) => void;
 };
 
 export const LocalUserContextProvider = ({
   children,
 }: LocalUserContextProps) => {
-  const { dbSelectUserMutation } = useUsers({});
+  const { dbSelectUserMutation, dbDeleteUserMutation } = useUsers({});
   const [localAccount, setLocalAccount] = useState<LocalUser>({
     id: 0,
     users: [],
   });
-  const [selectedUsers, setSelectedUsers] = useState<string[]>([]);
-
-  const onUserSelected = ({ userName }: { userName: string }) => {
-    selectedUsers.includes(userName)
-      ? setSelectedUsers(selectedUsers.filter((user) => user !== userName))
-      : setSelectedUsers([...selectedUsers, userName]);
-
-    updateLocalUser();
-  };
 
   const updateLocalUser = () => {
     const storedState = localStorage.getItem("db_user");
@@ -61,6 +51,16 @@ export const LocalUserContextProvider = ({
       githubLink: user.githubLink,
     };
     dbSelectUserMutation.mutate({ id, user: selectedUser });
+    setTimeout(() => {
+      updateLocalUser()
+    }, 300);
+  }
+
+  const activeDeleteUserMutation = ({username}:{username: string}) =>{
+    dbDeleteUserMutation.mutate({ username });
+    setTimeout(() => {
+      updateLocalUser()
+    }, 300);
   }
 
   useEffect(() => {
@@ -69,7 +69,7 @@ export const LocalUserContextProvider = ({
 
   return (
     <LocalUserContext.Provider
-      value={{ selectedUsers, localAccount, updateLocalUser, onUserSelected, activeSelectUserMutation }}
+      value={{ localAccount, updateLocalUser, activeSelectUserMutation, activeDeleteUserMutation }}
     >
       {children}
     </LocalUserContext.Provider>

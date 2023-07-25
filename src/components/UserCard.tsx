@@ -1,4 +1,4 @@
-import { FC, useContext, useEffect } from 'react';
+import { FC, useContext } from "react";
 import { faAdd, faMinus, faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ROUTES, UserCardPros, findStringIntoArray } from "../utils";
@@ -8,26 +8,17 @@ import LocalUserContext from "../context/localUser";
 
 export const UserCard: FC<UserCardPros> = ({
   user,
-  onChange,
-  selectedUsers,
-  localAccount
+  localAccount,
 }) => {
   const navigate = useNavigate();
-  const { updateLocalUser, activeSelectUserMutation } = useContext(LocalUserContext)
+  const {
+    activeSelectUserMutation,
+    activeDeleteUserMutation,
+  } = useContext(LocalUserContext);
 
   const goToUserDetails = () => {
     navigate(`${ROUTES.USER}/${user.username}`);
   };
-
-  const selectUserAction = () => {
-    activeSelectUserMutation({id: localAccount.id, user})
-    onChange({ userName: user.username })
-  };
-
-  useEffect(() => {
-    updateLocalUser();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedUsers]);
 
   return (
     <div className="relative bg-white py-6 px-6 rounded-3xl w-64 my-4 mb-10 shadow-xl">
@@ -35,12 +26,16 @@ export const UserCard: FC<UserCardPros> = ({
         <img src={user.avatar} className="w-16 h-w-16 rounded-full" />
       </div>
       <button
-        onClick={selectUserAction}
+        onClick={() => {
+          findStringIntoArray({
+            compareOne: localAccount.users,
+            compareTwo: user.username,
+          })
+            ? activeDeleteUserMutation({username: user.username})
+            : activeSelectUserMutation({id: localAccount.id, user});
+        }}
         className={`text-white flex items-center absolute rounded-full py-4 px-4 shadow-xl ${
           findStringIntoArray({
-            compareOne: selectedUsers,
-            compareTwo: user.username,
-          }) || findStringIntoArray({
             compareOne: localAccount.users,
             compareTwo: user.username,
           })
@@ -49,13 +44,14 @@ export const UserCard: FC<UserCardPros> = ({
         } right-4 -bottom-6`}
       >
         <FontAwesomeIcon
-          icon={findStringIntoArray({
-            compareOne: selectedUsers,
-            compareTwo: user.username,
-          }) || findStringIntoArray({
-            compareOne: localAccount.users,
-            compareTwo: user.username,
-          }) ? faMinus : faAdd}
+          icon={
+            findStringIntoArray({
+              compareOne: localAccount.users,
+              compareTwo: user.username,
+            })
+              ? faMinus
+              : faAdd
+          }
           className="h-4 w-4"
         />
       </button>
@@ -73,7 +69,7 @@ export const UserCard: FC<UserCardPros> = ({
         <FontAwesomeIcon icon={faUser} className="h-4 w-4" />
       </button>
       <div className="mt-8">
-        <p className="text-xl text-center font-semibold my-2">
+        <p className="text-xl text-center font-semibold my-2 break-all">
           {user.username.toUpperCase()}
         </p>
         <div className="border-t-2"></div>

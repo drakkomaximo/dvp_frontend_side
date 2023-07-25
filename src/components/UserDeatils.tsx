@@ -16,21 +16,8 @@ export const UserDeatils: FC<UserDetailsProps> = ({
   githubLink,
   id,
 }) => {
-  const { localAccount, activeSelectUserMutation, onUserSelected, selectedUsers } =
+  const { localAccount, activeSelectUserMutation, activeDeleteUserMutation } =
     useContext(LocalUserContext);
-
-  const addSelectedUser = () => {
-    activeSelectUserMutation({
-      id: localAccount.id,
-      user: {
-        avatar,
-        githubLink,
-        id,
-        username,
-      },
-    });
-    onUserSelected({ userName: username });
-  };
 
   return (
     <div className="px-16 h-full">
@@ -78,12 +65,24 @@ export const UserDeatils: FC<UserDetailsProps> = ({
               Github
             </a>{" "}
             <button
-              onClick={addSelectedUser}
+              onClick={() => {
+                findStringIntoArray({
+                  compareOne: localAccount.users,
+                  compareTwo: username,
+                })
+                  ? activeDeleteUserMutation({ username: username })
+                  : activeSelectUserMutation({
+                      id: localAccount.id,
+                      user: {
+                        avatar,
+                        githubLink,
+                        id,
+                        username,
+                      },
+                    });
+              }}
               className={`text-white py-2 px-4 uppercase rounded ${
                 findStringIntoArray({
-                  compareOne: selectedUsers,
-                  compareTwo: username,
-                }) || findStringIntoArray({
                   compareOne: localAccount.users,
                   compareTwo: username,
                 })
@@ -94,9 +93,6 @@ export const UserDeatils: FC<UserDetailsProps> = ({
               <FontAwesomeIcon
                 icon={
                   findStringIntoArray({
-                    compareOne: selectedUsers,
-                    compareTwo: username,
-                  }) || findStringIntoArray({
                     compareOne: localAccount.users,
                     compareTwo: username,
                   })
@@ -106,12 +102,9 @@ export const UserDeatils: FC<UserDetailsProps> = ({
                 className="mr-2"
               />
               {findStringIntoArray({
-            compareOne: selectedUsers,
-            compareTwo: username,
-          }) || findStringIntoArray({
-            compareOne: localAccount.users,
-            compareTwo: username,
-          })
+                compareOne: localAccount.users,
+                compareTwo: username,
+              })
                 ? "Remove"
                 : "Add"}{" "}
               user

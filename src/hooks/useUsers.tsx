@@ -11,7 +11,7 @@ import {
   getUserByNameApi,
   searchUsersByNameApi,
 } from "../services/http/users/queries";
-import { selectUserByNameApi } from "../services/http/users/mutations";
+import { deleteUserByNameApi, selectUserByNameApi } from "../services/http/users/mutations";
 
 export const useUsers = ({
   username = "",
@@ -31,12 +31,6 @@ export const useUsers = ({
       enabled: false,
       select: (data) =>
         formatedGithubUsersList({ usersListDataResponse: data }),
-      /* onSuccess: () => {
-        notification({
-          text: "",
-          type: "success",
-        });
-      }, */
     }
   );
 
@@ -49,12 +43,6 @@ export const useUsers = ({
       retry: 2,
       enabled: false,
       select: (data) => formatedGithubUser({ userDataResponse: data }),
-      /* onSuccess: () => {
-        notification({
-          text: "hola mundo",
-          type: "success",
-        });
-      }, */
     }
   );
 
@@ -68,12 +56,6 @@ export const useUsers = ({
       enabled: false,
       select: (data) =>
         formatedDbSelectedUsersList({ dbUsersListDataResponse: data }),
-      /* onSuccess: () => {
-        notification({
-          text: "hola mundo",
-          type: "success",
-        });
-      }, */
     }
   );
 
@@ -84,7 +66,6 @@ export const useUsers = ({
 
       if (storedData) {
         const localData = JSON.parse(storedData)
-        console.log(localData, 1)
         localStorage.setItem(
           "db_user",
           JSON.stringify({
@@ -93,7 +74,6 @@ export const useUsers = ({
           })
         );
       } else {
-        console.log(data, 2)
         localStorage.setItem(
           "db_user",
           JSON.stringify({
@@ -109,10 +89,33 @@ export const useUsers = ({
     },
   });
 
+  const dbDeleteUserMutation = useMutation(deleteUserByNameApi, {
+    onSuccess: (data) => {
+      const storedData = localStorage.getItem("db_user");
+
+      if (storedData) {
+        const localData = JSON.parse(storedData)
+        const filtedUsers = localData.users.filter((user: string) => user !== data.user_name)
+        localStorage.setItem(
+          "db_user",
+          JSON.stringify({
+            id: localData.id,
+            users: [...filtedUsers],
+          })
+        );
+      }
+      notification({
+        text: "Usuario eliminado",
+        type: "success",
+      });
+    },
+  });
+
   return {
-    dbSelectUserMutation,
     dbSelectUsersQuery,
     githubUsersListQuery,
     githubUserQuery,
+    dbSelectUserMutation,
+    dbDeleteUserMutation,
   };
 };

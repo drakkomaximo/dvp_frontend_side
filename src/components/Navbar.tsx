@@ -17,7 +17,7 @@ export const Navbar = () => {
           Github Finder
         </Link>
       </div>
-      {localAccount.id > 0 && (
+      {localAccount.users.length > 0 && (
         <ul className="flex gap-x-2">
           <li className="text-white font-bold">
             <Link

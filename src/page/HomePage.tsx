@@ -35,10 +35,12 @@ export const HomePage = () => {
         </h2>
       </header>
       <SearchBar onChange={findUsersByName} value={searchValue} />
-      <UsersList
-        items={githubUsersListQuery?.data || []}
-        isFetching={githubUsersListQuery.isFetching}
-      />
+      {searchValue.length > 4 && (
+        <UsersList
+          items={githubUsersListQuery?.data || []}
+          isFetching={githubUsersListQuery.isFetching}
+        />
+      )}
     </section>
   );
 };
