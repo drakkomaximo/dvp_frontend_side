@@ -1,4 +1,4 @@
-# dvp_frontend_side
+# Dvp_frontend_side
 This is a frontend side for dvp test fullstack.
 
 Steps to use the application:
